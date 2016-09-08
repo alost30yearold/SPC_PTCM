@@ -22,19 +22,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent i = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(i);
+       // Intent i = new Intent(MainActivity.this, LoginActivity.class);
+       // startActivity(i);
 
-       // View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
+       // View view = Inflater.inflate(R.layout.fragment_crime_list, container, false);
 
 
-       // FragmentManager fm = getSupportFragmentManager();
-       // Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = fm.findFragmentById(R.id.login_frag);
 
-//        if(fragment == null){
-//            fragment = new blankest();//createFragment();
-//            fm.beginTransaction().add(R.id.fragment_container, fragment).commit();
-//        }
+        if(fragment == null){
+            fragment = new LoginFragment();//createFragment();
+            fm.beginTransaction().add(R.id.login_frag, fragment).commit();
+       }
 
         /*
         mLogin = (Button) findViewById(R.id.login);
