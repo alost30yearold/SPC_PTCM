@@ -5,52 +5,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mLogin;
-
-    private static final String TAG = "MainActivity";
-    private static final String KEY_INDEX = "index";
-    private int mCurrentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_fragment);
 
-       // Intent i = new Intent(MainActivity.this, LoginActivity.class);
-       // startActivity(i);
+        if (findViewById(R.id.fragment_container) != null) {
 
-       // View view = Inflater.inflate(R.layout.fragment_crime_list, container, false);
+            if (savedInstanceState != null) {
+                return;
+            }
+            LoginFragment loginFragment = new LoginFragment();
 
+            loginFragment.setArguments(getIntent().getExtras());
 
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.login_frag);
+            FragmentManager fm = getSupportFragmentManager();
+            // Fragment fragment = fm.findFragmentById(R.id.login_frag);
 
-        if(fragment == null){
-            fragment = new LoginFragment();//createFragment();
-            fm.beginTransaction().add(R.id.login_frag, fragment).commit();
-       }
+            fm.beginTransaction().add(R.id.fragment_container, loginFragment).commit();
 
-        /*
-        mLogin = (Button) findViewById(R.id.login);
-        mLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                //LoginActivity fuck = new LoginActivity();
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
-            }*/
-       // });
-    }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
-        super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "onSaveInstanceState");
-        savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        }
+
     }
 }

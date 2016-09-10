@@ -13,17 +13,19 @@ public class LoginFragment extends Fragment {
 
     private String mUserloggedIn;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //mUserloggedIn = LoginActivity.UserLoginTask.
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+
+       mUserloggedIn = getString(R.string.user_name);
 
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstnaceState){
-        //return inflater.inflate(R.layout.login_fragment, container, false);
-        View v = inflater.inflate(R.layout.login_fragment, container, false);
-        return v;
+        return inflater.inflate(R.layout.login_fragment, container, false);
+
+
+
     }
 
 }
