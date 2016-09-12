@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/email_text"
-            android:hint="Enter Email"/>
+            android:id="@+id/user_text"
+            android:hint="@string/enter_user_hint"/>
 
         <EditText
             android:layout_width="wrap_content"
@@ -23,14 +23,14 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/password_text"
-            android:hint="Enter Password"/>
+            android:hint="@string/enter_pass_hint"/>
     </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login_button_text"
         android:id="@+id/my_login_button"
         android:layout_gravity="right"
-        android:hint="Logn"/>
+        android:hint="Login button"/>
 </LinearLayout>
