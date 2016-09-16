@@ -17,9 +17,9 @@ public class Customer {
 
     public Customer() {
         mId = UUID.randomUUID();
-        mCustomerEmail = "fuck";
-        mBillingAddress = "fuck";
-        mCustomerName = "fiuck";
+        mCustomerEmail = "test";
+        mBillingAddress = "test";
+        mCustomerName = "test";
         mCustomerSessions = new ArrayList<>();
         isCustomer = true;
 
