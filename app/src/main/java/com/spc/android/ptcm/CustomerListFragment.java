@@ -91,7 +91,7 @@ public class CustomerListFragment extends Fragment {
                  Log.d(TAG, "logout selected");
                 messageResId = R.string.logout;
                 Toast.makeText(getActivity(), messageResId, Toast.LENGTH_SHORT).show();
-                //Log.d(TAG, "fucking fuck");// + loginFragment.getArguments());
+                //Log.d(TAG, "testing test");// + loginFragment.getArguments());
                 // mUser = new User();
                 //setContentView(R.layout.activity_main);
                 //logout();

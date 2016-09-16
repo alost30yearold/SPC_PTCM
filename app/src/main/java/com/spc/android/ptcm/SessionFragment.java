@@ -60,12 +60,11 @@ public class SessionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_customer, container, false);
 
-        mTitleField = (TextView) v.findViewById(R.id.customer_name);
+        mTitleField = (TextView) v.findViewById(R.id.customer_name_title);
         mTitleField.setText(mCustomer.getCustomerName());
-        mCustomerNameField = (EditText) v.findViewById(R.id.crime_title);
 
+        mCustomerNameField = (EditText) v.findViewById(R.id.customer_name);
         mCustomerNameField.setText(mCustomer.getCustomerName());
-
         mCustomerNameField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

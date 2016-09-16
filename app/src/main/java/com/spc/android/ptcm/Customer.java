@@ -11,6 +11,8 @@ public class Customer {
     private String mCustomerName;
     private String mBillingAddress;
     private String mCustomerEmail;
+    private int mCustomerWeight;
+    private int mCustomerHeight;
     private List<Session> mCustomerSessions;
     private boolean isCustomer;
     private UUID mId;

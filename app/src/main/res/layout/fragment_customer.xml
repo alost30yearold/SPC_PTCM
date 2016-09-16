@@ -7,7 +7,7 @@
 
     <TextView
         style="?android:listSeparatorTextViewStyle"
-        android:id="@+id/customer_name"
+        android:id="@+id/customer_name_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
         <!--android:text="@string/customer_name_label"-->
@@ -39,12 +39,40 @@
         android:layout_marginRight="16dp"
         android:text="Customer Info"/>
     <EditText
-        android:id="@+id/crime_title"
+        android:id="@+id/customer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/customer_name_hint"/>
+    <EditText
+        android:id="@+id/customer_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/customer_email_hint"/>
+    <EditText
+        android:id="@+id/customer_billing_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/customer_billing_address_hint"/>
+    <EditText
+        android:id="@+id/customer_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/customer_height_hint"/>
+    <EditText
+        android:id="@+id/customer_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/customer_weight_hint"/>
 
 
 </LinearLayout>
