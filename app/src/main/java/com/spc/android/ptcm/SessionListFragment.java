@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,20 +68,12 @@ public class SessionListFragment extends Fragment {
         switch (menu.getItemId()){
             case R.id.login_menu_item:
                 Log.d(TAG, "login selected");
-                getActivity().setContentView(R.layout.activity_fragment);
-                //if (getView().findViewById(R.id.fragment_container) != null) {
+
                 Log.d(TAG, "frag cont != null ");
-                // if (savedInstanceState != null) {
-                //    Log.d(TAG, "saved I S != null ");
 
-                // return;
-                // }
-                LoginFragment loginFragment = new LoginFragment();
-                FragmentManager fm = getFragmentManager();
-                fm.beginTransaction().add(R.id.fragment_container, loginFragment).commit();
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
 
-                // }
-                //login();
                 Log.d(TAG, "login frag after");
                 return true;
             case R.id.logout_menu_item:
@@ -114,7 +107,7 @@ public class SessionListFragment extends Fragment {
         //public TextView mTitleTextView;
         private TextView mTitleTextView;
         private TextView mDateTextView;
-        private CheckBox mSolvedCheckBox;
+        private ImageButton mSolvedCheckBox;
         private Customer mCustomer;
 
         public CrimeHolder(View itemView){
@@ -125,7 +118,7 @@ public class SessionListFragment extends Fragment {
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
             mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
+            mSolvedCheckBox = (ImageButton) itemView.findViewById(R.id.list_item_crime_solved_check_box);
         }
         public void bindCustomer(Customer customer){
             mCustomer = customer;

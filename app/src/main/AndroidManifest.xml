@@ -36,6 +36,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
+        <activity
+            android:name=".SessionListActivity"
+            android:label="@string/sessions_button_text">
+        </activity>
     </application>
 
 </manifest>

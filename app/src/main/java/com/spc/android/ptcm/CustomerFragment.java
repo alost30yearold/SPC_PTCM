@@ -1,5 +1,6 @@
 package com.spc.android.ptcm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -111,7 +112,14 @@ public class CustomerFragment extends Fragment {
         mCustomerSessionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
+
+                Intent intent = new Intent(getActivity(), SessionListActivity.class);
+                startActivity(intent);
+
+
+
+
+                //FragmentManager manager = getFragmentManager();
                 //DatePickerFragment dialog = new DatePickerFragment();
                 //DatePickerFragment dialog = DatePickerFragment.newInstance(mCustomer.getDate());
 
