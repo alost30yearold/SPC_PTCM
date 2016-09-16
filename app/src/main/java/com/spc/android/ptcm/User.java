@@ -1,4 +1,4 @@
-package com.spc.android.personaltrainercustommanagment;
+package com.spc.android.ptcm;
 
 import java.io.Serializable;
 import java.util.UUID;

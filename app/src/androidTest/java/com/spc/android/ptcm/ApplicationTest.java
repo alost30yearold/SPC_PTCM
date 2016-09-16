@@ -1,4 +1,4 @@
-package com.spc.android.personaltrainercustommanagment;
+package com.spc.android.ptcm;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Login"
-          android:id="@+id/login_menu_item"></item>
-    <item android:title="Logout"
-          android:id="@+id/logout_menu_item"></item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:com.spc.android.ptcm="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/login_button_text"
+          android:id="@+id/login_menu_item"
+          com.spc.android.ptcm:showAsAction="ifRoom"></item>
+    <item android:title="@string/logout_item_text"
+          android:id="@+id/logout_menu_item"
+          com.spc.android.ptcm:showAsAction="ifRoom"></item>
 </menu>
