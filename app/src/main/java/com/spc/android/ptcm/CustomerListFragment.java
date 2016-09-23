@@ -3,9 +3,8 @@ package com.spc.android.ptcm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,10 +26,24 @@ public class CustomerListFragment extends Fragment {
 
     private static final String TAG = "CustomerListFragment";
 
+    private static final String ARG_LOGGED_USER = "logged_user";
+
     private RecyclerView mCustomerRecyclerView;
     private CustomerAdapter mAdapter;
+    private String mLogged_user;
 
-    @Override
+    public static CustomerListFragment newInstance(String crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_LOGGED_USER, crimeId);
+
+
+        CustomerListFragment fragment = new CustomerListFragment();
+        fragment.setArguments(args);
+        return fragment;
+
+    }
+
+        @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -57,8 +69,8 @@ public class CustomerListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_login,menu);
-        //getMenuInflater().inflate(R.menu.menu_login, menu);
+        inflater.inflate(R.menu.menu_customer,menu);
+        //getMenuInflater().inflate(R.menu.menu_customer, menu);
         //return true;
     }
     @Override
@@ -68,33 +80,26 @@ public class CustomerListFragment extends Fragment {
 
         switch (menu.getItemId()){
             case R.id.login_menu_item:
-                 Log.d(TAG, "login selected");
-                //getActivity().setContentView(R.layout.activity_fragment);
-                //if (getView().findViewById(R.id.fragment_container) != null) {
-                     Log.d(TAG, "frag cont != null ");
-                    // if (savedInstanceState != null) {
-                    //    Log.d(TAG, "saved I S != null ");
 
-                    // return;
-                    // }
-                   // LoginFragment loginFragment = new LoginFragment();
-                   // FragmentManager fm = getFragmentManager();
-                    //fm.beginTransaction().add(R.id.fragment_container, loginFragment).commit();
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
-
-               // }
-                //login();
-                 Log.d(TAG, "login frag after");
+                Log.d(TAG, "login frag after");
                 return true;
             case R.id.logout_menu_item:
                  Log.d(TAG, "logout selected");
                 messageResId = R.string.logout;
                 Toast.makeText(getActivity(), messageResId, Toast.LENGTH_SHORT).show();
-                //Log.d(TAG, "testing test");// + loginFragment.getArguments());
-                // mUser = new User();
-                //setContentView(R.layout.activity_main);
-                //logout();
+                getArguments().putSerializable(ARG_LOGGED_USER, null);
+                mLogged_user = null;
+                updateUI();
+                Intent intent3 = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent3);
+                return true;
+            case R.id.menu_item_new_customer:
+                Customer customer = new Customer();
+                CustomerLab.get(getActivity()).addCustomer(customer);
+                Intent intent1 = CustomerActivity.newIntent(getActivity(), customer.getId());
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(menu);
@@ -103,8 +108,21 @@ public class CustomerListFragment extends Fragment {
 
     }
     private void updateUI(){
+        mLogged_user = (String) getArguments().getSerializable(ARG_LOGGED_USER);
+        //String subtitle = getString(R.string.logged_in_as, mLogged_user);
+        Log.d(TAG, "updateUi : logged " + mLogged_user);
+        AppCompatActivity activity =(AppCompatActivity) getActivity();
+        if(mLogged_user != null) {
+            activity.getSupportActionBar().setSubtitle(getString(R.string.logged_in_as) + mLogged_user);
+        }
+        else{
+            activity.getSupportActionBar().setSubtitle(getString(R.string.please_login));
+        }
+
         CustomerLab customerLab = CustomerLab.get(getActivity());
         List<Customer> customers = customerLab.getCustomers();
+
+
 
         if(mAdapter == null) {
             mAdapter = new CustomerAdapter(customers);
@@ -112,6 +130,7 @@ public class CustomerListFragment extends Fragment {
         } else {
             mAdapter.notifyDataSetChanged();
         }
+
 
     }
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

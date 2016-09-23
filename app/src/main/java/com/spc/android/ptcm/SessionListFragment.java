@@ -3,7 +3,6 @@ package com.spc.android.ptcm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,12 +12,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Keith on 9/5/2016.
@@ -27,20 +27,35 @@ public class SessionListFragment extends Fragment {
 
     private static final String TAG = "SessionListFragment";
 
+    private static final String ARG_CUSTOMER_NAME = "customer_id";
+    private static final String ARG_CUSTOMER_LIST = "customer_list";
+
     private RecyclerView mSessionRecyclerView;
-    private CustomerAdapter mAdapter;
+    private SessionAdapter mAdapterS;
+
+    public static SessionListFragment newInstance(UUID crimeId, ArrayList<Session> customer_list) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CUSTOMER_NAME, crimeId);
+        args.putSerializable(ARG_CUSTOMER_LIST, customer_list);
+
+
+        SessionListFragment fragment = new SessionListFragment();
+        fragment.setArguments(args);
+        return fragment;
+
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_customer_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_session_list, container, false);
 
-        mSessionRecyclerView = (RecyclerView) view.findViewById(R.id.crime_recycler_view);
+        mSessionRecyclerView = (RecyclerView) view.findViewById(R.id.session_recycler_view);
         mSessionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
@@ -48,24 +63,27 @@ public class SessionListFragment extends Fragment {
         return view;
 
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         updateUI();
     }
+
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_login,menu);
-        //getMenuInflater().inflate(R.menu.menu_login, menu);
+        inflater.inflate(R.menu.menu_session, menu);
+        //getMenuInflater().inflate(R.menu.menu_customer, menu);
         //return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem menu){
+    public boolean onOptionsItemSelected(MenuItem menu) {
 
-        int messageResId=0;
+        int messageResId = 0;
 
-        switch (menu.getItemId()){
+        switch (menu.getItemId()) {
             case R.id.login_menu_item:
                 Log.d(TAG, "login selected");
 
@@ -85,81 +103,99 @@ public class SessionListFragment extends Fragment {
                 //setContentView(R.layout.activity_main);
                 //logout();
                 return true;
+            case R.id.menu_item_new_session:
+                Session session = new Session();
+                //CustomerLab.get(getActivity()).addSession(session);
+                Intent intent1 = SessionActivity.newIntent(getActivity(), session.getId());
+                startActivity(intent1);
+                return true;
             default:
                 return super.onOptionsItemSelected(menu);
 
         }
 
     }
-    private void updateUI(){
-        CustomerLab customerLab = CustomerLab.get(getActivity());
-        List<Customer> customers = customerLab.getCustomers();
 
-        if(mAdapter == null) {
-            mAdapter = new CustomerAdapter(customers);
-            mSessionRecyclerView.setAdapter(mAdapter);
+    private void updateUI() {
+
+        UUID mCustomerId = (UUID) getArguments().getSerializable(ARG_CUSTOMER_NAME);
+        //CustomerLab sessionLab = CustomerLab.get(getActivity());
+        ArrayList<Session> sessions = (ArrayList<Session>) getArguments().getSerializable(ARG_CUSTOMER_LIST);
+
+        if (mAdapterS == null) {
+            mAdapterS = new SessionAdapter(sessions);
+            mSessionRecyclerView.setAdapter(mAdapterS);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapterS.notifyDataSetChanged();
         }
 
     }
-    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    private class SessionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //public TextView mTitleTextView;
         private TextView mTitleTextView;
         private TextView mDateTextView;
-        private ImageButton mSolvedCheckBox;
-        private Customer mCustomer;
+        private ImageButton mSolvedCheckBox2;
+        private Session mSession;
 
-        public CrimeHolder(View itemView){
+        public SessionHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
 
             // mTitleTextView = (TextView) itemView;
 
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
-            mSolvedCheckBox = (ImageButton) itemView.findViewById(R.id.list_item_crime_solved_check_box);
+            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_session_title_text_view);
+            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_session_date_text_view);
+            mSolvedCheckBox2 = (ImageButton) itemView.findViewById(R.id.list_item_session_solved_check_box);
         }
-        public void bindCustomer(Customer customer){
-            mCustomer = customer;
-            mTitleTextView.setText(mCustomer.getCustomerName());
+
+        public void bindSession(Session session) {
+            mSession = session;
+            mTitleTextView.setText(mSession.getSessionName());
             //mDateTextView.setText(mCustomer.getId().toString());
             //mSolvedCheckBox.setChecked(mCustomer.isSolved());
         }
+
         @Override
-        public void onClick(View v){
-            Toast.makeText(getActivity(), mCustomer.getCustomerName() + " clicked!", Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-            Intent intent = CustomerActivity.newIntent(getActivity(), mCustomer.getId());
-            //Intent intent = CustomerPagerActivity.newIntent(getActivity(), mCustomer.getId());
+        public void onClick(View v) {
+
+
+            Toast.makeText(getActivity(), mSession.getSessionName() + " clicked!", Toast.LENGTH_SHORT).show();
+
+            Intent intent = SessionActivity.newIntent(getActivity(), mSession.getId());
+
             startActivity(intent);
         }
 
 
     }
-    private class CustomerAdapter extends RecyclerView.Adapter<CrimeHolder>{
 
-        private List<Customer> mCustomers;
+    private class SessionAdapter extends RecyclerView.Adapter<SessionHolder> {
 
-        public CustomerAdapter(List<Customer> customers){
-            mCustomers = customers;
+        private List<Session> mSessions;
+
+        public SessionAdapter(List<Session> sessions) {
+            mSessions = sessions;
         }
+
         @Override
-        public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        public SessionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             //View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-            View view = layoutInflater.inflate(R.layout.list_item_customer, parent, false);
-            return new CrimeHolder(view);
+            View view = layoutInflater.inflate(R.layout.list_item_session, parent, false);
+            return new SessionHolder(view);
         }
+
         @Override
-        public void onBindViewHolder(CrimeHolder holder, int position){
-            Customer customer = mCustomers.get(position);
+        public void onBindViewHolder(SessionHolder holder, int position) {
+            Session session = mSessions.get(position);
             //holder.mTitleTextView.setText(customer.getTitle());
-            holder.bindCustomer(customer);
+            holder.bindSession(session);
         }
+
         @Override
-        public int getItemCount(){
-            return mCustomers.size();
+        public int getItemCount() {
+            return mSessions.size();
         }
     }
 

@@ -15,7 +15,8 @@ public class CustomerLab {
 
     private static CustomerLab sCustomerLab;
 
-    private List<Customer> mCustomers;
+    private ArrayList<Customer> mCustomers;
+    private List<Session> mSessions;
 
     public static CustomerLab get(Context context) {
         if (sCustomerLab == null) {
@@ -26,20 +27,37 @@ public class CustomerLab {
 
     private CustomerLab(Context context) {
         mCustomers = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            Customer customer = new Customer();
-            customer.setCustomerName("Customer #" + i);
-            customer.setCustomer(i % 2 == 0); //everyotherone
-            mCustomers.add(customer);
-
-        }
+//        for (int i = 0; i < 15; i++) {
+//            Customer customer = new Customer();
+//            customer.setCustomerName("Customer #" + i);
+//            customer.setCustomer(i % 2 == 0); //everyotherone
+//
+//            mSessions = customer.getCustomerSessions();
+//            mCustomers.add(customer);
+//
+//        }
+       //mSessions = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            Session session = new Session();
+//            session.setSessionName("Session #" + i);
+//            session.setFinished(i % 2 == 0); //everyotherone
+//            mSessions.add(session);
+//
+//        }
     }
     public void addCustomer(Customer c){
         mCustomers.add(c);
+       // mSessions = c.getCustomerSessions();
+    }
+    public void addSession(Session s){
+        mSessions.add(s);
     }
 
     public List<Customer> getCustomers() {
         return mCustomers;
+    }
+    public List<Session> getSessions() {
+        return mSessions;
     }
 
     public Customer getCustomer(UUID id) {
@@ -47,6 +65,15 @@ public class CustomerLab {
             if (customer.getId().equals(id)) {
                 Log.d(TAG, "customer created");
                 return customer;
+            }
+        }
+        return null;
+    }
+    public Session getSession(UUID id) {
+        for (Session session : mSessions) {
+            if (session.getId().equals(id)) {
+                Log.d(TAG, "session created");
+                return session;
             }
         }
         return null;

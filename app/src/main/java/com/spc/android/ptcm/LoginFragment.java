@@ -1,6 +1,7 @@
 package com.spc.android.ptcm;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -31,10 +33,11 @@ public class LoginFragment extends Fragment {
 
     //    OnLoginSelectedListener mListener;
 //    private String mUserloggedIn;
-//    private TextView mLoggedInUser;
+    private TextView mLoggedInUser;
     private User mUser = new User();
 
     private Bundle mBundle = new Bundle();
+
 
     private EditText mUserField;
     private EditText mPasswordField;
@@ -70,6 +73,7 @@ public class LoginFragment extends Fragment {
         // MainActivity.LoginData loginData = (MainActivity.LoginData) getArguments().getSerializable(MainActivity.LOGIN_DATA_KEY);
         Log.d(TAG, "onCreateView called, ");//+ loginData.userName);
         View v = inflater.inflate(R.layout.my_login, container, false);
+        //View l = inflater.inflate(R.layout.login_fragment, container, false);
 
         mUserField = (EditText) v.findViewById(R.id.user_text);
         //mUserField.setText(R.string.user_name);
@@ -110,31 +114,27 @@ public class LoginFragment extends Fragment {
             }
         });
         mLoginButton = (Button) v.findViewById(R.id.my_login_button);
+       // mLoggedInUser = (TextView) v.findViewById(R.id.logged_in_user_text);
+       // mLoggedInUser.setText("nopo");
         Log.d(TAG, "right be fore button, " + mUser.getUserName() + mUser.getUserPassword());
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String mUserN = "JDoe";
-                String mUserP = "password1";
+                String mUserN = "pass";
+                String mUserP = "pass";
+//                String mUserN = "JDoe";
+//                String mUserP = "password1";
                 //check if entered credentials match our stuff
-                if (mUser.getUserName().equals(mUserN) && mUser.getUserPassword().equals(mUserP)) {
+                if (1 == 1)//mUser.getUserName().equals(mUserN) && mUser.getUserPassword().equals(mUserP)) {
+                {
                     messageResId = R.string.login_success;
                     Toast.makeText(getView().getContext(), messageResId, Toast.LENGTH_SHORT).show();
                     mBundle.putSerializable(ARG_LOGIN_ID, mUser.getUserName());
                     mBundle.putSerializable(ARG_LOGIN_PASS, mUser.getUserPassword());
 
-                    //getFragmentManager().popBackStackImmediate();
-
-
-                   // inflater.inflate(R.layout.fragment_customer_list, container, false);
-
-
-
-                    //getActivity().setContentView(R.layout.fragment_customer_list);
-                    //getActivity().setContentView(R.layout.fragment_customer);
-                    // Intent intent = MainActivity.newIntent(getActivity(), mUser.getId());
-                    //getActivity().
+                    Intent intent = CustomerListActivity.newIntent(getActivity(), mUser.getUserName());
+                    startActivity(intent);
 
                 } else {
                     messageResId = R.string.login_fail;
@@ -153,7 +153,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "right after that pause shit ");
+        Log.d(TAG, "right after that pause  ");
 
     }
 }

@@ -3,6 +3,8 @@
     <string name="login_success">Login Successful!</string>
     <string name="login_fail">Login Unsuccessful!</string>
     <string name="logout">Logging you out!</string>
+    <string name="logged_in_as">Logged in as : </string>
+    <string name="please_login">Please Login</string>
     <string name="user_name">JDoe</string>
     <string name="password">password1</string>
     <string name="title_activity_login">Sign in</string>
@@ -10,7 +12,8 @@
     <string name="enter_pass_hint">Enter Password</string>
     <string name="login_button_text">Login</string>
     <string name="logout_item_text">Logout</string>
-
+    <string name="new_customer">New Customer</string>
+    <string name="new_session">New Session</string>
 
 
     <string name="customer_name_hint">Enter Customer Name</string>
@@ -19,10 +22,16 @@
     <string name="crime_solved_label">Solved</string>
     <string name="date_picker_title">Date of Crime:</string>
     <string name="sessions_button_text">Sessions</string>
+    <string name="save_session_button_text">Save Session</string>
     <string name="customer_info_button_text">Customer Info</string>
     <string name="customer_billing_address_hint">Enter Billing Address</string>
     <string name="customer_email_hint">Enter E-Mail</string>
     <string name="customer_weight_hint">Enter Customer Weight</string>
     <string name="customer_height_hint">Enter Customer Height</string>
+    <string name="title_activity_pay2">Pay2Activity</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="pay_fragment">This is the pay Screen</string>
 
 </resources>

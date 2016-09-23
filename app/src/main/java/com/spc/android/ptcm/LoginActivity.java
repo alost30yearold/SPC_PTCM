@@ -17,6 +17,7 @@ public class LoginActivity extends SingleFragmentActivity {
     private static final String EXTRA_LIST_ID = "com.bignerdranch.android.criminalintent.list_id";
     private static final String EXTRA_LOGIN_ID = "user_id_thingy";
     private static final String EXTRA_LOGIN_PASS = "user_pass_thingy";
+    public String loggedInUser;
 
     public static Intent newIntent(Context packageContext, UUID listID){
         Intent intent = new Intent(packageContext, CustomerActivity.class);

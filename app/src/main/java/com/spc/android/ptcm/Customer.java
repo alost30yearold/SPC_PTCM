@@ -13,18 +13,26 @@ public class Customer {
     private String mCustomerEmail;
     private int mCustomerWeight;
     private int mCustomerHeight;
-    private List<Session> mCustomerSessions;
+    private ArrayList<Session> mCustomerSessions;
     private boolean isCustomer;
     private UUID mId;
 
     public Customer() {
         mId = UUID.randomUUID();
-        mCustomerEmail = "test";
-        mBillingAddress = "test";
-        mCustomerName = "test";
-        mCustomerSessions = new ArrayList<>();
-        isCustomer = true;
+        mCustomerEmail = "E-Mail";
+        mBillingAddress = "Billing address";
+        mCustomerName = "Customer Named";
 
+        mCustomerSessions = new ArrayList<>();
+        mCustomerSessions = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Session session = new Session();
+            session.setSessionName("Session # " + i +" "+this.getCustomerName());
+            session.setFinished(i % 2 == 0); //everyotherone
+            mCustomerSessions.add(session);
+
+        }
+        isCustomer = true;
     }
 
 
@@ -68,11 +76,27 @@ public class Customer {
         mCustomerEmail = customerEmail;
     }
 
-    public List<Session> getCustomerSessions() {
+    public ArrayList<Session> getCustomerSessions() {
         return mCustomerSessions;
     }
 
-    public void setCustomerSessions(List<Session> customerSessions) {
+    public void setCustomerSessions(ArrayList<Session> customerSessions) {
         mCustomerSessions = customerSessions;
+    }
+
+    public int getCustomerWeight() {
+        return mCustomerWeight;
+    }
+
+    public void setCustomerWeight(int customerWeight) {
+        mCustomerWeight = customerWeight;
+    }
+
+    public int getCustomerHeight() {
+        return mCustomerHeight;
+    }
+
+    public void setCustomerHeight(int customerHeight) {
+        mCustomerHeight = customerHeight;
     }
 }
