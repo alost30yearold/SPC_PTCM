@@ -10,4 +10,11 @@
         android:layout_height="match_parent"
         android:text="@string/pay_fragment"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Print Reciept"
+        android:id="@+id/reciept_button"
+        android:layout_gravity="right|bottom"/>
+
 </FrameLayout>
