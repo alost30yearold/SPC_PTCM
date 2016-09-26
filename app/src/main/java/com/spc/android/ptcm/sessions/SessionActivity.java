@@ -1,16 +1,18 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.sessions;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.spc.android.ptcm.SingleFragmentActivity;
+
 import java.util.UUID;
 
 /**
  * Created by Keith on 9/12/2016.
  */
-public class SessionActivity extends SingleFragmentActivity{
+public class SessionActivity extends SingleFragmentActivity {
     private static final String TAG = "SessionActivity";
     // public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
     private static final String EXTRA_SESSION_ID = "session_id";

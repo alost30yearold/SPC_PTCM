@@ -1,10 +1,12 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.login;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+
+import com.spc.android.ptcm.SingleFragmentActivity;
+import com.spc.android.ptcm.customers.CustomerActivity;
 
 import java.util.UUID;
 

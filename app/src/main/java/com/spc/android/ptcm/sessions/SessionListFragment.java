@@ -1,8 +1,9 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.sessions;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +17,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.spc.android.ptcm.customers.CustomerLab;
+import com.spc.android.ptcm.login.LoginActivity;
+import com.spc.android.ptcm.R;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -27,16 +31,17 @@ public class SessionListFragment extends Fragment {
 
     private static final String TAG = "SessionListFragment";
 
-    private static final String ARG_CUSTOMER_NAME = "customer_id";
-    private static final String ARG_CUSTOMER_LIST = "customer_list";
+    private static final String ARG_CUSTOMER_ID = "customer_id";
+    private static final String ARG_CUSTOMER_NAME = "customer_name";
 
     private RecyclerView mSessionRecyclerView;
     private SessionAdapter mAdapterS;
+    private String mCustomerName;
 
-    public static SessionListFragment newInstance(UUID crimeId, ArrayList<Session> customer_list) {
+    public static SessionListFragment newInstance(UUID customerId, String customerName) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_CUSTOMER_NAME, crimeId);
-        args.putSerializable(ARG_CUSTOMER_LIST, customer_list);
+        args.putSerializable(ARG_CUSTOMER_ID, customerId);
+        args.putSerializable(ARG_CUSTOMER_NAME, customerName);
 
 
         SessionListFragment fragment = new SessionListFragment();
@@ -104,9 +109,11 @@ public class SessionListFragment extends Fragment {
                 //logout();
                 return true;
             case R.id.menu_item_new_session:
-                Session session = new Session();
-                //CustomerLab.get(getActivity()).addSession(session);
-                Intent intent1 = SessionActivity.newIntent(getActivity(), session.getId());
+                Session session = new Session((UUID)getArguments().getSerializable(ARG_CUSTOMER_ID));
+                Log.d(TAG, "new selected then uuid :" +getArguments().getSerializable(ARG_CUSTOMER_ID));
+                CustomerLab.get(getActivity()).addSession(session);
+                Intent intent1 = SessionActivity.newIntent(getActivity(), session.getSessionUUID());
+                Log.d(TAG, "new selected" +session.getSessionUUID());
                 startActivity(intent1);
                 return true;
             default:
@@ -117,15 +124,21 @@ public class SessionListFragment extends Fragment {
     }
 
     private void updateUI() {
+        mCustomerName =(String) getArguments().getSerializable(ARG_CUSTOMER_NAME);
+        AppCompatActivity activity =(AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(mCustomerName);
 
-        UUID mCustomerId = (UUID) getArguments().getSerializable(ARG_CUSTOMER_NAME);
-        //CustomerLab sessionLab = CustomerLab.get(getActivity());
-        ArrayList<Session> sessions = (ArrayList<Session>) getArguments().getSerializable(ARG_CUSTOMER_LIST);
+
+        UUID mCustomerId = (UUID) getArguments().getSerializable(ARG_CUSTOMER_ID);
+        CustomerLab sessionLab = CustomerLab.get(getActivity());
+        List<Session> sessions = sessionLab.getSessions(mCustomerId);
+        //ArrayList<Session> sessions = (ArrayList<Session>) getArguments().getSerializable(ARG_CUSTOMER_LIST);
 
         if (mAdapterS == null) {
             mAdapterS = new SessionAdapter(sessions);
             mSessionRecyclerView.setAdapter(mAdapterS);
         } else {
+            mAdapterS.setSessions(sessions);
             mAdapterS.notifyDataSetChanged();
         }
 
@@ -145,14 +158,17 @@ public class SessionListFragment extends Fragment {
             // mTitleTextView = (TextView) itemView;
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_session_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_session_date_text_view);
-            mSolvedCheckBox2 = (ImageButton) itemView.findViewById(R.id.list_item_session_solved_check_box);
+            //mDateTextView = (TextView) itemView.findViewById(R.id.list_item_session_date_text_view);
+            //mSolvedCheckBox2 = (ImageButton) itemView.findViewById(R.id.list_item_session_solved_check_box);
         }
 
         public void bindSession(Session session) {
             mSession = session;
-            mTitleTextView.setText(mSession.getSessionName());
-            //mDateTextView.setText(mCustomer.getId().toString());
+            String number = Integer.toString(mSession.getSessionNumber());
+            mTitleTextView.setText("From: "+mSession.getSessionDateStart().toString()+ "\nTo     : "+mSession.getSessionDateEnd().toString());//mSession.getSessionUUID().toString());
+
+            //mTitleTextView.setText(mSession.getSessionNumber()); DOES NOT WORK NO IDEA WHY
+            //mDateTextView.setText(mCustomer.getCustomerId().toString());
             //mSolvedCheckBox.setChecked(mCustomer.isSolved());
         }
 
@@ -160,9 +176,9 @@ public class SessionListFragment extends Fragment {
         public void onClick(View v) {
 
 
-            Toast.makeText(getActivity(), mSession.getSessionName() + " clicked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), mSession.getSessionNumber() + " clicked!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = SessionActivity.newIntent(getActivity(), mSession.getId());
+            Intent intent = SessionActivity.newIntent(getActivity(), mSession.getSessionUUID());
 
             startActivity(intent);
         }
@@ -196,6 +212,10 @@ public class SessionListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mSessions.size();
+        }
+
+        public void setSessions(List<Session> sessions){
+            mSessions = sessions;
         }
     }
 

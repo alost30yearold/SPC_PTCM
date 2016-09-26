@@ -10,20 +10,20 @@ public class User implements Serializable {
 
     private String mUserName;
     private String mUserPassword;
-    private UUID mId;
+    private UUID mUserId;
 
     public User(){
-        mId = UUID.randomUUID();
+        mUserId = UUID.randomUUID();
         mUserName = "notNull";
         mUserPassword = "notNull";
     }
 
     public UUID getId() {
-        return mId;
+        return mUserId;
     }
 
     public void setId(UUID id) {
-        mId = id;
+        mUserId = id;
     }
 
     public String getUserName() {

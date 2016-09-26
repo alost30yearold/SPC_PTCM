@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.spc.android.ptcm.login.LoginFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menu){
 
-        int messageResId=0;
+        int messageResId;
 
         switch (menu.getItemId()){
             case R.id.login_menu_item:

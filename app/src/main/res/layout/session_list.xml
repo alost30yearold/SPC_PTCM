@@ -22,4 +22,5 @@
         android:id="@+id/new_session_button"
         android:layout_row="1"
         android:layout_column="0"/>
+
 </GridLayout>

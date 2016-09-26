@@ -62,28 +62,20 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/customer_billing_address_hint"/>
-    <EditText
-        android:id="@+id/customer_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/customer_height_hint"/>
-    <EditText
-        android:id="@+id/customer_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/customer_weight_hint"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pay"
+        android:text="@string/pay_button_text"
         android:id="@+id/pay_button"
         android:layout_gravity="center_horizontal"
         />
+
+    <Button
+        android:text="Save Customer Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/save_customer_button"/>
 
 
 </LinearLayout>

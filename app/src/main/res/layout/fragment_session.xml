@@ -8,22 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <EditText
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Session Start Time"
-        android:id="@+id/start_time"
-        android:hint="@string/accept"
-        android:layout_below="@+id/session_name_title"
-        android:layout_alignParentStart="true"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Session End Time"
-        android:id="@+id/end_time"
-        android:hint="@string/accept"
-        android:layout_below="@+id/start_time"
+        android:text="Edit End"
+        android:id="@+id/edit_end_button"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/edit_start_button"
         android:layout_alignParentStart="true"/>
 
     <Button
@@ -31,6 +22,17 @@
         android:layout_height="wrap_content"
         android:text="Save Session"
         android:id="@+id/save_session_button"
-        android:layout_below="@+id/end_time"
+        android:layout_below="@+id/edit_end_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit Start"
+        android:id="@+id/edit_start_button"
+        android:layout_below="@+id/session_name_title"
         android:layout_alignParentStart="true"/>
+
+
 </RelativeLayout>

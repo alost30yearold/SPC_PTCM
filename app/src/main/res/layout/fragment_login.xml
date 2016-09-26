@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:text="@string/login_button_text"
         android:id="@+id/my_login_button"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:hint="Login button"/>
 </LinearLayout>

@@ -1,6 +1,5 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.login;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.spc.android.ptcm.R;
+import com.spc.android.ptcm.User;
+import com.spc.android.ptcm.customers.CustomerListActivity;
 
 import java.util.UUID;
 
@@ -72,7 +75,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstnaceState) {
         // MainActivity.LoginData loginData = (MainActivity.LoginData) getArguments().getSerializable(MainActivity.LOGIN_DATA_KEY);
         Log.d(TAG, "onCreateView called, ");//+ loginData.userName);
-        View v = inflater.inflate(R.layout.my_login, container, false);
+        View v = inflater.inflate(R.layout.fragment_login, container, false);
         //View l = inflater.inflate(R.layout.login_fragment, container, false);
 
         mUserField = (EditText) v.findViewById(R.id.user_text);
@@ -146,7 +149,7 @@ public class LoginFragment extends Fragment {
 
 
         Log.d(TAG, "after methods called,"); //+ mUser.getUserName());
-        return v;   //inflater.inflate(R.layout.my_login, container, false);
+        return v;   //inflater.inflate(R.layout.fragment_login, container, false);
 
     }
 

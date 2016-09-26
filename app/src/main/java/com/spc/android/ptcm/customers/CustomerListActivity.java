@@ -1,15 +1,11 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.customers;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.util.UUID;
+import com.spc.android.ptcm.SingleFragmentActivity;
 
 /**
  * Created by Keith on 9/12/2016.

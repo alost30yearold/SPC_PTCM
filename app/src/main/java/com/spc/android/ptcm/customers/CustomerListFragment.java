@@ -1,9 +1,10 @@
-package com.spc.android.ptcm;
+package com.spc.android.ptcm.customers;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.spc.android.ptcm.login.LoginActivity;
+import com.spc.android.ptcm.R;
 
 import java.util.List;
 
@@ -32,9 +36,9 @@ public class CustomerListFragment extends Fragment {
     private CustomerAdapter mAdapter;
     private String mLogged_user;
 
-    public static CustomerListFragment newInstance(String crimeId) {
+    public static CustomerListFragment newInstance(String logged_user) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_LOGGED_USER, crimeId);
+        args.putSerializable(ARG_LOGGED_USER, logged_user);
 
 
         CustomerListFragment fragment = new CustomerListFragment();
@@ -98,7 +102,7 @@ public class CustomerListFragment extends Fragment {
             case R.id.menu_item_new_customer:
                 Customer customer = new Customer();
                 CustomerLab.get(getActivity()).addCustomer(customer);
-                Intent intent1 = CustomerActivity.newIntent(getActivity(), customer.getId());
+                Intent intent1 = CustomerActivity.newIntent(getActivity(), customer.getCustomerId());
                 startActivity(intent1);
                 return true;
             default:
@@ -128,6 +132,7 @@ public class CustomerListFragment extends Fragment {
             mAdapter = new CustomerAdapter(customers);
             mCustomerRecyclerView.setAdapter(mAdapter);
         } else {
+            mAdapter.setCustomers(customers);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -143,25 +148,26 @@ public class CustomerListFragment extends Fragment {
         public CrimeHolder(View itemView){
             super(itemView);
             itemView.setOnClickListener(this);
+            //CardView cv = (CardView)itemView.findViewById(R.id.cv);
 
             // mTitleTextView = (TextView) itemView;
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
-            mSolvedCheckBox = (ImageButton) itemView.findViewById(R.id.list_item_crime_solved_check_box);
+            //mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
+            //mSolvedCheckBox = (ImageButton) itemView.findViewById(R.id.list_item_crime_solved_check_box);
         }
         public void bindCustomer(Customer customer){
             mCustomer = customer;
             mTitleTextView.setText(mCustomer.getCustomerName());
-            //mDateTextView.setText(mCustomer.getId().toString());
+            //mDateTextView.setText(mCustomer.getCustomerId().toString());
             //mSolvedCheckBox.setChecked(mCustomer.isSolved());
         }
         @Override
         public void onClick(View v){
             Toast.makeText(getActivity(), mCustomer.getCustomerName() + " clicked!", Toast.LENGTH_SHORT).show();
             //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-             Intent intent = CustomerActivity.newIntent(getActivity(), mCustomer.getId());
-            //Intent intent = CustomerPagerActivity.newIntent(getActivity(), mCustomer.getId());
+             Intent intent = CustomerActivity.newIntent(getActivity(), mCustomer.getCustomerId());
+            //Intent intent = CustomerPagerActivity.newIntent(getActivity(), mCustomer.getCustomerId());
             startActivity(intent);
         }
 
@@ -190,6 +196,10 @@ public class CustomerListFragment extends Fragment {
         @Override
         public int getItemCount(){
             return mCustomers.size();
+        }
+
+        public void setCustomers(List<Customer> customers){
+            mCustomers = customers;
         }
     }
 
