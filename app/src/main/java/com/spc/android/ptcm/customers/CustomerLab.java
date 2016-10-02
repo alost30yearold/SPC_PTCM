@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.util.Log;
 
 import com.spc.android.ptcm.database.PTCMBaseHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -121,6 +123,14 @@ public class CustomerLab {
             cursor.close();
         }
         //return null;
+    }
+    public File getPhotoFile(Customer customer){
+        File externalFilesDir = mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if(externalFilesDir == null){
+            return null;
+        }
+        return new File(externalFilesDir, customer.getPhotoFilename());
+
     }
     public void updateCustomer(Customer customer){
         String uuidString = customer.getCustomerId().toString();

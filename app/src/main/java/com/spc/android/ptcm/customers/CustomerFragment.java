@@ -1,7 +1,17 @@
 package com.spc.android.ptcm.customers;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 //import android.app.FragmentManager;
@@ -13,17 +23,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 //import android.widget
 
 
 import com.spc.android.ptcm.PayActivity;
+import com.spc.android.ptcm.PictureUtils;
 import com.spc.android.ptcm.R;
 import com.spc.android.ptcm.sessions.Session;
 import com.spc.android.ptcm.sessions.SessionListActivity;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Keith on 9/4/2016.
@@ -36,7 +53,10 @@ public class CustomerFragment extends Fragment {
     private static final String DIALOG_DATE = "DialogDate";
     private static final String ARG_LOGGED_USER = "logged_user";
 
+    private static final int REQUEST_PHOTO = 2;
+
     private Customer mCustomer;
+    private File mPhotoFile;
     private TextView mTitleField;
     private EditText mCustomerNameField;
     private EditText mCustomerBillingAddressField;
@@ -45,6 +65,8 @@ public class CustomerFragment extends Fragment {
     private Button mCustomerSessionsButton;
     private Button mPayButton;
     private Button mCustomerSaveButton;
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
 
 //    private String mCustomerNameSaved;
 //    private String mCustomerBillingAddressSaved;
@@ -54,7 +76,7 @@ public class CustomerFragment extends Fragment {
         Bundle args = new Bundle();
         args.putSerializable(ARG_CUSTOMER_ID, customerUUID);
 
-       // args.putSerializable(ARG_LOGGED_USER, crimeId);
+        // args.putSerializable(ARG_LOGGED_USER, crimeId);
 
         CustomerFragment fragment = new CustomerFragment();
         fragment.setArguments(args);
@@ -71,10 +93,12 @@ public class CustomerFragment extends Fragment {
         //String loggedUser = (String) getArguments().getSerializable(ARG_LOGGED_USER);
 
         mCustomer = CustomerLab.get(getActivity()).getCustomer(customerId);
-        Log.d(TAG, "customers created"+mCustomer);
+        mPhotoFile = CustomerLab.get(getActivity()).getPhotoFile(mCustomer);
+        Log.d(TAG, "customers created" + mCustomer);
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         Log.d(TAG, "right after that pause " + mCustomer.getCustomerName());
 
@@ -173,7 +197,7 @@ public class CustomerFragment extends Fragment {
         mCustomerSaveButton = (Button) v.findViewById(R.id.save_customer_button);
         mCustomerSaveButton.setText("Save Customer Info");
         mCustomerSaveButton.setVisibility(View.INVISIBLE);
-        mCustomerSaveButton.setOnClickListener(new View.OnClickListener(){
+        mCustomerSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mCustomerNameField.setEnabled(false);
@@ -221,15 +245,65 @@ public class CustomerFragment extends Fragment {
             }
         });
 
+        PackageManager packageManager = getActivity().getPackageManager();
+
+        mPhotoButton = (ImageButton) v.findViewById(R.id.customer_camera);
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
+        Log.d(TAG, "can take photo " + canTakePhoto);
+        Log.d(TAG, "can take photo " );
+        mPhotoButton.setEnabled(canTakePhoto);
+        if (canTakePhoto)
+
+        {
+            Uri uri = Uri.fromFile(mPhotoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        }
+
+
+        mPhotoButton.setOnClickListener(new View.OnClickListener()
+
+                                        {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                startActivityForResult(captureImage, REQUEST_PHOTO);
+                                            }
+                                        }
+
+        );
+        mPhotoView = (ImageView) v.findViewById(R.id.customer_photo);
+
+        updatePhotoView();
+
 
         return v;
     }
-    protected void feildTextlistener(EditText feild, int layout_text, Customer customer, View v){
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_PHOTO) {
+            updatePhotoView();
+        }
+}
+
+    public void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mPhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
+    }
+
+    protected void feildTextlistener(EditText feild, int layout_text, Customer customer, View v) {
         feild = (EditText) v.findViewById(layout_text);
         feild.setText("");
 
-
-
-
     }
+
 }

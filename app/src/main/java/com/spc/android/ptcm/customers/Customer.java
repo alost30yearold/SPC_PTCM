@@ -93,4 +93,8 @@ public class Customer {
     public void setCustomerSessions(String what) {
         mCustomerSessions = new ArrayList<>();
     }
+
+    public String getPhotoFilename(){
+        return "IMG_"+getCustomerId().toString()+ ".jpg";
+    }
 }
